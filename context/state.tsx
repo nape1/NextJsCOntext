@@ -1,15 +1,15 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 const AppStateContext = createContext({});
 
 export function AppWrapper({ children }) {
-    let sharedState = {
-        name: 'tester',
-        age: '34'
-    }
-
+    // let sharedState = {
+    //     name: 'tester',
+    //     age: '34'
+    // }
+    const [count, setCount] = useState(1)
     return (
-        <AppStateContext.Provider value={sharedState}>
+        <AppStateContext.Provider value={{ count, setCount }}>
             {children}
         </AppStateContext.Provider>
     )
