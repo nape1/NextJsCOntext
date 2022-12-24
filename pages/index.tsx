@@ -9,7 +9,7 @@ export default function Home() {
     const { count, setCount } = useAppStateContext()
     let { homeTitle, homeContent } = value.state.languages;
     console.log('====================================');
-    console.log('Home renders');
+    console.log('Home renders ');
     console.log('====================================');
     return (
         <>
