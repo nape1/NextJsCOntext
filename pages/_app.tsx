@@ -1,16 +1,22 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import { AppWrapper } from '../context/state'
-import LanguageProvider from '../context/AppContext'
-
-
-export default function App({ Component, pageProps }: AppProps) {
-    return (
-        <AppWrapper>
-            <LanguageProvider>
-                <Component {...pageProps} />
-            </LanguageProvider>
-        </AppWrapper>
-    )
+import { NextPage } from 'next';
+import { CountProvider, LanguageProvider, ThemeProvider } from "../context/AppContext";
+interface AppProps {
+    Component: NextPage;
+    pageProps: object;
 }
+
+const App: NextPage<AppProps> = ({ Component, pageProps }) => {
+    return (
+        <CountProvider>
+            <ThemeProvider>
+                <LanguageProvider>
+                    <Component {...pageProps} />
+                </LanguageProvider>
+            </ThemeProvider>
+        </CountProvider>
+    );
+};
+
+export default App;

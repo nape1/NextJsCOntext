@@ -1,27 +1,39 @@
-// @ts-nocheck
-import { Container } from "react-bootstrap";
-import Navigation from "../components/Navigation";
-import { useLanguageContext } from "../context/AppContext";
-import { useAppStateContext } from "../context/state";
+import { useCountContext, useThemeContext, useLanguageContext } from '../context/AppContext';
+import { NextPage } from 'next';
+import Navigation from '../components/Navigation';
+import { Container } from 'react-bootstrap';
+import { useRouter } from 'next/router';
+import Link from "next/link";
 
-export default function Home() {
-    const value = useLanguageContext()
-    const { count, setCount } = useAppStateContext()
-    let { homeTitle, homeContent } = value.state.languages;
-    console.log('====================================');
-    console.log('Home renders ');
-    console.log('====================================');
+const IndexPage: NextPage = () => {
+    const { count, setCount } = useCountContext()
+    const { theme, setTheme } = useThemeContext()
+    const { language, setLanguage } = useLanguageContext()
+    const { pathname, asPath } = useRouter()
     return (
         <>
-            <Navigation />
+            {/* <Navigation /> */}
             <Container className="page">
-                <h2>{homeTitle} {count}</h2>
-                <p>{homeContent}</p>
-                <button onClick={() => setCount((prev) => prev + 1)}>+</button>
+                <h1>Path is {asPath}</h1>
+                <h3>count:{count} Theme:{theme} language:{language}</h3>
+                <button onClick={() => setCount((prev) => prev + 1)}>Increment count</button>
                 {' '}
-                <button onClick={() => setCount((prev) => prev - 1)}>-</button>
-
+                <button onClick={() => setCount((prev) => prev - 1)}>Decrement count</button>
+                {' '}
+                <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+                    Toggle theme
+                </button>
+                {' '}
+                <button onClick={() => setLanguage(language === 'en' ? 'fr' : 'en')}>
+                    Toggle language
+                </button>
+                <div>
+                    <Link href="/about"> About</Link> {' '}
+                    <Link href="/contact"> Contact</Link>
+                </div>
             </Container>
         </>
     );
-}
+};
+
+export default IndexPage;

@@ -1,26 +1,38 @@
 // @ts-nocheck
 import { Container } from "react-bootstrap";
-import Navigation from "../../../components/Navigation";
-import { useLanguageContext } from "../../../context/AppContext";
-import { useAppStateContext } from "../../../context/state";
+import Navigation from "../../components/Navigation";
+import { useCountContext, useLanguageContext, useThemeContext } from "../../context/AppContext";
+import Link from "next/link";
+import { useRouter } from 'next/router';
 
-export default function About() {
-    const value = useLanguageContext();
-    const { count, setCount } = useAppStateContext()
+export default function Contacts() {
+    const { count, setCount } = useCountContext()
+    const { theme, setTheme } = useThemeContext()
+    const { language, setLanguage } = useLanguageContext()
+    const { pathname, asPath } = useRouter()
 
-    let { aboutTitle, aboutContent } = value.state.languages;
-    console.log('====================================');
-    console.log('About renders');
-    console.log('====================================');
     return (
         <>
-            <Navigation />
+            {/* <Navigation /> */}
             <Container className="page">
-                <h2>{aboutTitle}{count}</h2>
-                <p>{aboutContent}</p>
-                <button onClick={() => setCount((prev) => prev + 1)}>+</button>
+                <h1>Path is {asPath}</h1>
+                <h3>count:{count} Theme:{theme} language:{language}</h3>
+                <button onClick={() => setCount((prev) => prev + 1)}>Increment count</button>
                 {' '}
-                <button onClick={() => setCount((prev) => prev - 1)}>-</button>
+                <button onClick={() => setCount((prev) => prev - 1)}>Decrement count</button>
+                {' '}
+                <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+                    Toggle theme
+                </button>
+                {' '}
+                <button onClick={() => setLanguage(language === 'en' ? 'fr' : 'en')}>
+                    Toggle language
+                </button>
+                <div>
+                    <Link href="/"> Home</Link> {' '}
+                    <Link href="/contact"> Contact</Link>{' '}
+                    <Link href="/about"> About</Link>
+                </div>
             </Container>
         </>
     );
